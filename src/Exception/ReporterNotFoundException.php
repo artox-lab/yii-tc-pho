@@ -4,7 +4,7 @@ namespace yii_tc_pho\Exception;
 
 /**
  * Class ReporterNotFoundException
- * @package pho\Exception
+ * @package yii_tc_pho\Exception
  */
 class ReporterNotFoundException extends Exception
 {

@@ -15,10 +15,10 @@ class ExpectationException extends \Exception
         parent::__construct($message);
 
         $stack = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-        $class = 'pho\Expectation\Expectation';
+        $class = 'yii_tc_pho\Expectation\Expectation';
         $pos = -1;
 
-        // Search for the last call in pho\Expectation\Expectation
+        // Search for the last call in yii_tc_pho\Expectation\Expectation
         for ($i = 0; $i < min(count($stack), 8); $i++) {
             if (isset($stack[$i]['class']) && $stack[$i]['class'] === $class) {
                 $pos = $i;

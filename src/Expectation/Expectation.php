@@ -46,7 +46,7 @@ class Expectation
     /**
      * Adds a custom matcher given a name (ie: toBeA), and the namespaced
      * class as a string. The passed class is expected to implement
-     * pho\Expectation\Matcher\MatcherInterface.
+     * yii_tc_pho\Expectation\Matcher\MatcherInterface.
      *
      * @param string $name            Method name to assign to the matcher
      * @param string $namespacedClass The namespaced class
@@ -403,7 +403,7 @@ class Expectation
 
     /**
      * Calls a custom matcher. The matcher is expected to implement
-     * pho\Expectation\Matcher\MatcherInterface. A new instance is created,
+     * yii_tc_pho\Expectation\Matcher\MatcherInterface. A new instance is created,
      * and its match method is called with a variable number of arguments. If
      * match returns false, getFailureMessage is passed as the description to
      * an ExpectationException.
