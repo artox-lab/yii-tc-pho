@@ -11,7 +11,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "yii-tc-pho\\": "src"
+            "yii_tc_pho\\": "src"
         }
     },
     "require": {
