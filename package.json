@@ -1,0 +1,21 @@
+{
+    "name": "steepdevs/yii-tc-pho",
+    "description": "Pho integrated with Yii and TeamCity",
+    "keywords": [
+        "pho",
+        "yii",
+        "teamcity",
+        "yii pho teamcity"
+    ],
+    "homepage": "https://github.com/steepdevs/yii-tc-pho",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "yii-tc-pho\\": "src"
+        }
+    },
+    "require": {
+        "php": ">=5.5",
+        "pho": ">=1.1"
+    }
+}
