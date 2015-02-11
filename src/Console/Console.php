@@ -7,8 +7,10 @@ use ReflectionClass;
 use ReflectionException;
 use pho\Exception\ReporterNotFoundException;
 
-class Console extends pho\Console\Console
+class Console extends \pho\Console\Console
 {
+    const DEFAULT_REPORTER = 'yii_tc_pho\\Reporter\\DotReporter';
+
     /**
      * Returns the namespaced name of the reporter class requested via the
      * command line arguments, defaulting to DotReporter if not specified.

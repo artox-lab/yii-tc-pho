@@ -2,8 +2,37 @@
 
 namespace yii_tc_pho\Reporter;
 
-abstract class AbstractReporter extends pho\Reporter\AbstractReporter
+use pho\Runnable\Spec;
+use pho\Suite\Suite;
+
+abstract class AbstractReporter extends \pho\Reporter\AbstractReporter
 {
+    protected $suite;
+
+    public function beforeSuite(Suite $suite)
+    {
+        if (empty($suite->getParent()))
+        {
+            $this->console->writeLn("\n##teamcity[testStarted name='" . $suite->getTitle() . "']");
+
+            $this->suite = $suite;
+        }
+
+        return parent::beforeSuite($suite);
+    }
+
+    public function afterSuite(Suite $suite)
+    {
+        if (empty($suite->getParent()))
+        {
+            $this->console->writeLn("\n##teamcity[testFinished name='" . $suite->getTitle() . "']");
+
+            $this->suite = null;
+        }
+
+        return parent::beforeSuite($suite);
+    }
+
     /**
      * Invoked after the test suite has ran, allowing for the display of test
      * results and related statistics.
@@ -16,8 +45,18 @@ abstract class AbstractReporter extends pho\Reporter\AbstractReporter
 
         foreach ($this->failedSpecs as $spec) {
             $failedText = $this->formatter->red("\n\"$spec\" FAILED");
-            $this->console->writeLn($failedText);
-            $this->console->writeLn($spec->exception);
+
+            if (!empty($this->suite))
+            {
+                $this->console->writeLn("
+                ##teamcity[testFailed name='" . $spec->getTitle() . "' message='" . $failedText . "' details='" . $spec->exception . "']
+                ");
+            }
+            else
+            {
+                $this->console->writeLn($failedText);
+                $this->console->writeLn($spec->exception);
+            }
         }
 
         if ($this->startTime) {

@@ -3,6 +3,8 @@
 namespace yii_tc_pho\Reporter;
 
 use yii_tc_pho\Console\Console;
+use pho\Runnable\Spec;
+use pho\Suite\Suite;
 
 class SpecReporter extends AbstractReporter implements ReporterInterface
 {
