@@ -21,19 +21,19 @@ class TeamCityReporter extends \pho\Reporter\AbstractReporter
             return 0;
         }
 
-        return $this->beginTimes[$key] - ceil(microtime(true)/1000);
+        return ceil(microtime(true)/1000) - $this->beginTimes[$key];
     }
 
     public function beforeSuite(Suite $suite)
     {
-        $this->console->writeLn("\n##teamcity[testStarted name='" . $suite->getTitle() . "']");
+        $this->console->writeLn("##teamcity[testStarted name='" . $suite->getTitle() . "']");
         $this->registerBeginTime(md5($suite->getTitle()));
         return parent::beforeSuite($suite);
     }
 
     public function afterSuite(Suite $suite)
     {
-        $this->console->writeLn("\n##teamcity[testFinished name='" . $suite->getTitle() . "' duration='" . $this->getDurationTime(md5($suite->getTitle())) . "']");
+        $this->console->writeLn("##teamcity[testFinished name='" . $suite->getTitle() . "' duration='" . $this->getDurationTime(md5($suite->getTitle())) . "']");
         return parent::beforeSuite($suite);
     }
 
@@ -50,45 +50,31 @@ class TeamCityReporter extends \pho\Reporter\AbstractReporter
      */
     public function afterSpec(Spec $spec)
     {
-        $leftPad = str_repeat(' ', self::TAB_SIZE * $this->depth);
-
         if ($spec->isFailed())
         {
             $this->failedSpecs[] = $spec;
-            $title = $this->formatter->red($spec->getTitle());
-
-            $this->console->writeLn("
-                ##teamcity[testFailed name='" . $spec->getTitle() . "' message='" . $this->formatter->red($spec) . "' details='" . $spec->exception . "']
-            ");
+            $this->console->writeLn("##teamcity[testFailed name='" . $spec->getTitle() . "' message='" . $this->formatter->red($spec) . "' details='" . $spec->exception . "']");
         }
         else if ($spec->isIncomplete())
         {
             $this->incompleteSpecs[] = $spec;
-            $title = $this->formatter->cyan($spec->getTitle());
         }
         else if ($spec->isPending())
         {
             $this->pendingSpecs[] = $spec;
-            $title = $this->formatter->yellow($spec->getTitle());
         }
-        else
-        {
-            $title = $this->formatter->grey($spec->getTitle());
-        }
-
-        //$this->console->writeLn($leftPad . $title);
     }
 
     public function afterRun()
     {
         if (count($this->failedSpecs)) {
-            $this->console->writeLn("\nFailures:");
+            $this->console->writeLn("\nReport:");
         }
 
         if ($this->startTime) {
             $endTime = microtime(true);
             $runningTime = round($endTime - $this->startTime, 5);
-            $this->console->writeLn("\nFinished in $runningTime seconds");
+            $this->console->writeLn("Tests finished in $runningTime seconds");
         }
 
         $failedCount = count($this->failedSpecs);
@@ -105,7 +91,7 @@ class TeamCityReporter extends \pho\Reporter\AbstractReporter
             $this->drawAscii();
         }
 
-        $summaryText = "\n{$this->specCount} $specs, $failedCount $failures" .
+        $summaryText = "{$this->specCount} $specs, $failedCount $failures" .
             $incomplete . $pending;
 
         // Generate the summary based on whether or not it passed

@@ -3,7 +3,7 @@
 namespace yii_tc_pho;
 
 use pho\Runner\Runner;
-use pho\Console\Console;
+use yii_tc_pho\Console\Console;
 use pho\Expectation\Expectation;
 
 /**
@@ -145,7 +145,7 @@ if ($console->options['no-color']) {
 
 if (!$console->options['reporter'])
 {
-    $console->options['reporter'] = 'yii_tc_pho\\Reporter\\TeamCityReporter';
+    $console->options['reporter'] = '\\yii_tc_pho\\Reporter\\TeamCity';
 }
 
 // Exit if necessary
