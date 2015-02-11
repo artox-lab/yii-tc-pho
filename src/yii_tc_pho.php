@@ -3,8 +3,8 @@
 namespace yii_tc_pho;
 
 use pho\Runner\Runner;
-use yii_tc_pho\Console\Console;
-use yii_tc_pho\Expectation\Expectation;
+use pho\Console\Console;
+use pho\Expectation\Expectation;
 
 /**
  * Calls the runner's describe() method, creating a test suite with the provided
@@ -141,6 +141,11 @@ $console->parseArguments();
 // Disable color output if necessary
 if ($console->options['no-color']) {
     $console->formatter->disableANSI();
+}
+
+if (!$console->options['reporter'])
+{
+    $console->options['reporter'] = 'yii_tc_pho\\Reporter\\TeamCityReporter';
 }
 
 // Exit if necessary
