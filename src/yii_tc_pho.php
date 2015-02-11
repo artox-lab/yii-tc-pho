@@ -3,7 +3,7 @@
 namespace yii_tc_pho;
 
 use pho\Runner\Runner;
-use pho\Console\Console;
+use yii_tc_pho\Console\Console;
 use yii_tc_pho\Expectation\Expectation;
 
 /**
