@@ -149,8 +149,8 @@ if (!$console->options['reporter'])
 }
 
 // Exit if necessary
-if ($console->getExitStatus() !== null) {
-    exit($console->getExitStatus());
+if ($console->getErrorStatus() !== null) {
+    exit($console->getErrorStatus());
 }
 
 // Load global namespaced functions if required
@@ -162,4 +162,3 @@ if (!$console->options['namespace']) {
 // Start the runner
 Runner::$console = $console;
 Runner::getInstance()->run();
-exit($console->getExitStatus());
