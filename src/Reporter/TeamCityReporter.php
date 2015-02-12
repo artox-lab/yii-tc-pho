@@ -9,6 +9,8 @@ class TeamCityReporter extends \pho\Reporter\AbstractReporter
 {
     protected $beginTimes = [];
 
+    protected $depth = [];
+
     protected function registerBeginTime($key)
     {
         $this->beginTimes[$key] = floor(microtime(true)/1000);
@@ -26,20 +28,32 @@ class TeamCityReporter extends \pho\Reporter\AbstractReporter
 
     public function beforeSuite(Suite $suite)
     {
-        $this->console->writeLn("##teamcity[testStarted name='" . $suite->getTitle() . "']");
+        if (empty($suite->getParent()))
+        {
+            $this->console->writeLn('');
+        }
+
+        $this->depth[] = $suite->getTitle();
+
+        //print_r($this->depth);echo "\r\n";
+
+        $this->console->writeLn("\n##teamcity[testSuiteStarted name='" . $suite->getTitle() . "']");
         $this->registerBeginTime(md5($suite->getTitle()));
         return parent::beforeSuite($suite);
     }
 
     public function afterSuite(Suite $suite)
     {
-        $this->console->writeLn("##teamcity[testFinished name='" . $suite->getTitle() . "' duration='" . $this->getDurationTime(md5($suite->getTitle())) . "']");
+        $this->console->writeLn("##teamcity[testSuiteFinished name='" . $suite->getTitle() . "' duration='" . $this->getDurationTime(md5($suite->getTitle())) . "']");
+        array_pop($this->depth);
         return parent::beforeSuite($suite);
     }
 
     public function beforeSpec(Spec $spec)
     {
         $this->specCount += 1;
+
+        $this->console->writeLn("##teamcity[testStarted name='" . $spec . "']");
     }
 
     /**
@@ -53,7 +67,7 @@ class TeamCityReporter extends \pho\Reporter\AbstractReporter
         if ($spec->isFailed())
         {
             $this->failedSpecs[] = $spec;
-            $this->console->writeLn("##teamcity[testFailed name='" . $spec->getTitle() . "' message='" . $this->formatter->red($spec) . "' details='" . $spec->exception . "']");
+            $this->console->writeLn("##teamcity[testFailed name='" . $spec . "' message='" . $this->formatter->red('failed') . "' details='" . str_replace("\n", ' ', $spec->exception) . "']");
         }
         else if ($spec->isIncomplete())
         {
@@ -63,6 +77,8 @@ class TeamCityReporter extends \pho\Reporter\AbstractReporter
         {
             $this->pendingSpecs[] = $spec;
         }
+
+        $this->console->writeLn("##teamcity[testFinished name='" . $spec . "']");
     }
 
     public function afterRun()
