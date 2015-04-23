@@ -1,5 +1,5 @@
 {
-    "name": "steepdevs/yii-tc-pho",
+    "name": "artox-lab/yii-tc-pho",
     "description": "Pho integrated with Yii and TeamCity",
     "keywords": [
         "pho",
@@ -7,7 +7,7 @@
         "teamcity",
         "yii pho teamcity"
     ],
-    "homepage": "https://github.com/steepdevs/yii-tc-pho",
+    "homepage": "https://github.com/artox-lab/yii-tc-pho",
     "license": "MIT",
     "autoload": {
         "psr-4": {
