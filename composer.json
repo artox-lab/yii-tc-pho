@@ -16,7 +16,7 @@
     },
     "require": {
         "php": ">=5.5.0",
-        "danielstjules/pho": ">=1.1"
+        "artox-lab/pho": ">=1.1"
     },
     "bin": ["bin/yii-tc-pho"]
 }
