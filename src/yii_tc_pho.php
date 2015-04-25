@@ -148,10 +148,10 @@ if (!$console->options['reporter'])
     $console->options['reporter'] = '\\yii_tc_pho\\Reporter\\TeamCity';
 }
 
-// Exit if necessary
-if ($console->getErrorStatus() !== null) {
-    exit($console->getErrorStatus());
-}
+// // Exit if necessary
+// if ($console->getErrorStatus() !== null) {
+//     exit($console->getErrorStatus());
+// }
 
 // Load global namespaced functions if required
 if (!$console->options['namespace']) {
