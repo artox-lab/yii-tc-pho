@@ -23,4 +23,4 @@ if (!$composerInstall) {
 
 unset($composerInstall, $files, $file);
 
-require_once(realpath(dirname(__FILE__) . '/..') . '/artox-lab/yii-tc-pho/src/yii_tc_pho.php');
+require_once(realpath(dirname(__FILE__) . '/..') . '/src/yii_tc_pho.php');
